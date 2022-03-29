@@ -10,7 +10,9 @@ function [P,L,U] = PLU(A)
                 break
             end
         end
-        pos = find(idx,1)+jj-1;
+        [M, p] = max(abs(U(jj:end, col)));
+        pos = p+jj-1;
+%         pos = find(idx,1)+jj-1;
         if pos ~= 1
             U([jj pos], :) = U([pos jj], :);
             P([jj pos], :) = P([pos jj], :);
@@ -19,11 +21,11 @@ function [P,L,U] = PLU(A)
                 L(:, [jj pos]) = L(:, [pos jj]);
             end
         end
-        if jj < m-1
-            cof = U(jj+1:end, col)/U(jj, col);
-            L(jj+1:end, col) = cof;
-            for ii=jj+1:m
-                U(ii, :) = U(ii, :) - cof(ii-jj)*U(jj, :);
-            end
+%         if jj < m-1
+        cof = U(jj+1:end, col)/U(jj, col);
+        L(jj+1:end, jj) = cof;
+        for ii=jj+1:m
+            U(ii, :) = U(ii, :) - cof(ii-jj)*U(jj, :);
         end
+%         end
     end
