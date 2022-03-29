@@ -19,11 +19,9 @@ function [P,L,U] = PLU(A)
                 L(:, [jj pos]) = L(:, [pos jj]);
             end
         end
-        if jj < m-1
-            cof = U(jj+1:end, col)/U(jj, col);
-            L(jj+1:end, col) = cof;
-            for ii=jj+1:m
-                U(ii, :) = U(ii, :) - cof(ii-jj)*U(jj, :);
-            end
+        cof = U(jj+1:end, col)/U(jj, col);
+        L(jj+1:end, jj) = cof;
+        for ii=jj+1:m
+            U(ii, :) = U(ii, :) - cof(ii-jj)*U(jj, :);
         end
     end
